@@ -8,7 +8,7 @@ const int max_player=100;
 
 char djm[1000];
 
-int num_player=2,winner;
+int num_player=10,winner,pay_num;
 
 double value[max_player];
 
@@ -21,10 +21,18 @@ double gen_value(double l,double r)
 
 void mechanism()
 {
-	int res=1;
+	int res1=1,res2=1;
 	for (int a=1;a<=num_player;a++)
-		if (result[a]>result[res]) res=a;
-	winner=res;
+		if (result[a]>result[res1]) 
+		{
+			res2=res1;
+			res1=a;
+		}
+		else
+		{
+			if (result[a]>result[res2]) res2=a;
+		}
+	winner=res1;pay_num=res2;
 }
 
 int main(int argc,char *argv[])
@@ -60,7 +68,7 @@ int main(int argc,char *argv[])
 		mechanism();
 		for (int a=1;a<=num_player;a++)
 		{
-			sprintf(djm,"./learn%d %d %d %lf",a,a,winner,result[winner]);
+			sprintf(djm,"./learn%d %d %d %lf",a,a,winner,result[pay_num]);
 			system(djm);
 		}
 	}
